@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class ThingsTableViewControler: UITableViewController, Transition {
+class ThingsTableViewControler: UITableViewController {
     
     struct TableViewConstants {
         
@@ -27,6 +27,12 @@ class ThingsTableViewControler: UITableViewController, Transition {
         tableView.rowHeight = TableViewConstants.rowHeight
         tableView.separatorColor = UIColor.black
         tableView.separatorStyle = .singleLine
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -68,8 +74,7 @@ class ThingsTableViewControler: UITableViewController, Transition {
         detailsViewController.thingModel = thingModel
         detailsViewController.imageProvider = viewModel.imageProvider
         detailsViewController.delegate = self
-        let navigationContorller = UINavigationController(rootViewController: detailsViewController)
-        pushViewControler(navigationContorller, animated: true)
+        navigationController?.pushViewController(detailsViewController, animated: true)
     }
 }
 
@@ -78,17 +83,13 @@ extension ThingsTableViewControler: ThingDetailsDelegate {
     func thingDetails(viewController: ThingDetailsViewController, didLike thingModel: inout ThingModel) {
         
         thingModel.setLike(value: true)
-        popViewController(viewController, animated: true)
+        navigationController?.popToViewController(self, animated: true)
     }
     
     func thingDetails(viewController: ThingDetailsViewController, didDislike thingModel: inout ThingModel) {
         
         thingModel.setLike(value: false)
-        popViewController(viewController, animated: true)
-    }
-    
-    func thingDetails(viewController: ThingDetailsViewController, willDismiss thingModel: inout ThingModel) {
-        popViewController(viewController, animated: true)
+        navigationController?.popToViewController(self, animated: true)
     }
 }
 

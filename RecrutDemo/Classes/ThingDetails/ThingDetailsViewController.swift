@@ -22,15 +22,11 @@ class ThingDetailsViewController: UIViewController {
         super.viewDidLoad()
     
         title = thingModel.name
-        
+        navigationController?.isNavigationBarHidden = false
+
         baseView.likeButton.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
         baseView.dislikeButton.addTarget(self, action: #selector(didTapDislikeButton), for: .touchUpInside)
-        setup()
         displayImage()
-    }
-    
-    @objc func didTapCloseButton() {
-        delegate?.thingDetails(viewController: self, willDismiss: &thingModel!)
     }
     
     @objc func didTapLikeButton() {

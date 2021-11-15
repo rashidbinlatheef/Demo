@@ -10,7 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         let window = UIWindow(frame: UIScreen.main.bounds)
         let thingsViewController = ThingsTableViewControler()
-        window.rootViewController = thingsViewController // Your initial view controller.
+        window.rootViewController = UINavigationController(rootViewController: thingsViewController)
         window.makeKeyAndVisible()
         self.window = window
         return true
