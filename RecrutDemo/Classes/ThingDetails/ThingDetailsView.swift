@@ -1,23 +1,33 @@
 import Foundation
 import UIKit
 
-class ThingDetailsView: UIView {
-    
+struct ThingDetailsViewModel {
+    let imageUrlString: String?
+}
+
+final class ThingDetailsView: UIView {
+    private let imageProvider: ImageProvider
     private let imageView = UIImageView()
     private let buttons = UIStackView()
-    let likeButton = UIButton()
-    let dislikeButton = UIButton()
+    private let likeButton = UIButton()
+    private let dislikeButton = UIButton()
     
-    convenience init() {
-        self.init(frame: CGRect.zero)
+    var onLikeButtonAction: (() -> Void)?
+    var onDisLikeButtonAction: (() -> Void)?
+
+    init(
+        imageProvider: ImageProvider = ImageProvider()
+    ) {
+        self.imageProvider = imageProvider
+        super.init(frame: CGRect.zero)
         
         imageView.contentMode = .scaleAspectFit
         addSubview(imageView)
         
-        likeButton.setImage(#imageLiteral(resourceName: "likeO96"), for: .normal)
+        likeButton.setImage(.likeImage, for: .normal)
         //addSubview(likeButton)
         
-        dislikeButton.setImage(#imageLiteral(resourceName: "dontlikeO96"), for: .normal)
+        dislikeButton.setImage(.dislikeImage, for: .normal)
         //addSubview(dislikeButton)
         
         buttons.addArrangedSubview(likeButton)
@@ -30,6 +40,32 @@ class ThingDetailsView: UIView {
         addSubview(buttons)
         
         setNeedsUpdateConstraints()
+        
+        likeButton.addTarget(
+            self,
+            action: #selector(didTapLikeButton),
+            for: .touchUpInside
+        )
+        
+        dislikeButton.addTarget(
+            self,
+            action: #selector(didTapDislikeButton),
+            for: .touchUpInside
+        )
+    }
+    
+    @objc
+    func didTapLikeButton() {
+        onLikeButtonAction?()
+    }
+    
+    @objc
+    func didTapDislikeButton() {
+        onDisLikeButtonAction?()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func updateConstraints() {
@@ -64,8 +100,15 @@ class ThingDetailsView: UIView {
         buttons.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0.0).isActive = true
     }
     
-    func setThing(image: UIImage?) {
-        imageView.image = image
+    func render(viewModel: ThingDetailsViewModel) {
+        if let urlString = viewModel.imageUrlString {
+            imageProvider.imageAsync(
+                from: urlString,
+                completion: { [weak self] image, imageUrl in
+                    self?.imageView.image = image
+                }
+            )
+        }
     }
 }
 

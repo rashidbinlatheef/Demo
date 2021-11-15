@@ -2,20 +2,19 @@ import Foundation
 import UIKit
 
 final class ThingsTableViewControler: UITableViewController {
-    
-    struct TableViewConstants {
+    private struct TableViewConstants {
         static let cellIdentifier = "Cell"
         static let estimatedRowHeight: CGFloat = 180
     }
     
-    private var viewModel = ThingsTableViewModel()
+    private let viewModel = ThingsTableViewModel()
     private let notificationObserver = NotificationCenter.default
-    private let thinkCellViewModelBuilder: ThinkCellViewModelBuilding
+    private let thingViewModelBuilder: ThingViewModelBuilding
 
     init(
-        thinkCellViewModelBuilder: ThinkCellViewModelBuilding = ThinkCellViewModelBuilder()
+        thingViewModelBuilder: ThingViewModelBuilding = ThingViewModelBuilder()
     ) {
-        self.thinkCellViewModelBuilder = thinkCellViewModelBuilder
+        self.thingViewModelBuilder = thingViewModelBuilder
         super.init(nibName: nil, bundle: nil)
         notificationObserver.addObserver(
             self,
@@ -52,7 +51,7 @@ extension ThingsTableViewControler {
             fatalError("Couldn't dequeue cell of type: \(ThingCell.self) with identifier \(TableViewConstants.cellIdentifier). You probably forgot to register the table view cell class.")
         }
         let thingsModel = viewModel.thing(for: indexPath)
-        let thingCellViewModel = thinkCellViewModelBuilder.buildThingCellViewModel(
+        let thingCellViewModel = thingViewModelBuilder.buildThingCellViewModel(
             thingsModel: thingsModel
         )
         cell.render(viewModel: thingCellViewModel)
@@ -78,9 +77,10 @@ private extension ThingsTableViewControler {
     }
     
     func pushDetailsViewController(_ thingModel: ThingModel) {
-        let detailsViewController = ThingDetailsViewController()
-        detailsViewController.thingModel = thingModel
-        detailsViewController.imageProvider = viewModel.imageProvider
+        let detailsViewController = ThingDetailsViewController(
+            thingModel: thingModel,
+            thingViewModelBuilder: thingViewModelBuilder
+        )
         navigationController?.pushViewController(detailsViewController, animated: true)
     }
     

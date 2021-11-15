@@ -1,53 +1,81 @@
 import Foundation
 import UIKit
 
-class ThingDetailsViewController: UIViewController {
-    
+struct ThingDetailsVCViewModel {
+    let title: String
+}
+
+final class ThingDetailsViewController: UIViewController {
     private let baseView = ThingDetailsView()
-    var thingModel: ThingModel!
-    var imageProvider: ImageProvider!
+    private let thingModel: ThingModel!
+    private let thingViewModelBuilder: ThingViewModelBuilding
+
+    init(
+        thingModel: ThingModel,
+        thingViewModelBuilder: ThingViewModelBuilding
+    ) {
+        self.thingModel = thingModel
+        self.thingViewModelBuilder = thingViewModelBuilder
+        super.init(nibName: nil, bundle: nil)
+    }
     
-    convenience init() {
-        self.init(nibName: nil, bundle: nil)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func loadView() {
-        
         view = baseView
         view.backgroundColor = UIColor.white
+        baseView.render(
+            viewModel: thingViewModelBuilder.buildThingDetailsViewModel(
+                thingsModel: thingModel
+            )
+        )
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        title = thingModel.name
-        navigationController?.isNavigationBarHidden = false
-
-        baseView.likeButton.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
-        baseView.dislikeButton.addTarget(self, action: #selector(didTapDislikeButton), for: .touchUpInside)
-        displayImage()
-    }
-    
-    @objc func didTapLikeButton() {
-        thingModel.like = true
-        NotificationCenter.default.post(name: ThingsModelUpdateNotification, object: thingModel)
-        navigationController?.popViewController(animated: true)
-    }
-    @objc
-    func didTapDislikeButton() {
-        thingModel.like = false
-        NotificationCenter.default.post(name: ThingsModelUpdateNotification, object: thingModel)
-        navigationController?.popViewController(animated: true)
-    }
-    
-    func displayImage() {
-        if let urlString = thingModel.image {
-            imageProvider.imageAsync(from: urlString, completion: { (image, imageUrl) in
-                self.baseView.setThing(image: image)
-            })
-        }
+        setupUI()
+        let viewModel = thingViewModelBuilder.buildThingDetailsVCViewModel(
+            thingsModel: thingModel
+        )
+        render(viewModel: viewModel)
     }
 }
 
+// MARK: - Private
 
-
+private extension ThingDetailsViewController {
+    func setupUI() {
+        navigationController?.isNavigationBarHidden = false
+        baseView.onLikeButtonAction = { [weak self] in
+            self?.didTapLikeButton()
+        }
+        
+        baseView.onDisLikeButtonAction = { [weak self] in
+            self?.didTapDislikeButton()
+        }
+    }
+    
+    func render(viewModel: ThingDetailsVCViewModel) {
+        title = viewModel.title
+    }
+    
+    func didTapLikeButton() {
+        thingModel.like = true
+        NotificationCenter.default.post(
+            name: ThingsModelUpdateNotification,
+            object: thingModel
+        )
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func didTapDislikeButton() {
+        thingModel.like = false
+        NotificationCenter.default.post(
+            name: ThingsModelUpdateNotification,
+            object: thingModel
+        )
+        navigationController?.popViewController(animated: true)
+    }
+}
