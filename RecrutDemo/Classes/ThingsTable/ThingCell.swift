@@ -1,6 +1,11 @@
 import Foundation
 import UIKit
-var count: Int = 0
+
+struct ThingCellViewModel {
+    let name: String
+    let imageUrlString: String?
+    let likeImage: UIImage?
+}
 
 final class ThingCell: UITableViewCell {
     private let thingImage = UIImageView()
@@ -12,14 +17,11 @@ final class ThingCell: UITableViewCell {
         return label
     }()
     
-    var updateThingImage: ((UIImage?) -> (Void)) = { _ in }
-    
+    private var imageProvider: ImageProvider?
+        
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         setupUI()
-        updateThingImage = { image in
-            self.change(image: image, in: self.thingImage)
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,19 +30,29 @@ final class ThingCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        thingImage.layer.removeAllAnimations()
+        likeImage.layer.removeAllAnimations()
         thingImage.image = nil
         likeImage.image = nil
         nameLabel.text = nil
+        imageProvider = nil
     }
     
-    func update(withText: String) {
-        nameLabel.text = withText
+    func render(viewModel: ThingCellViewModel) {
+        nameLabel.text = viewModel.name
+        change(image: viewModel.likeImage, in: likeImage)
+        imageProvider = ImageProvider()
+        if let imageUrlString = viewModel.imageUrlString {
+            imageProvider?.imageAsync(from: imageUrlString) { [weak self] image, urlString in
+                guard let self = self else {
+                    return
+                }
+                self.change(image: image, in: self.thingImage)
+            }
+        } else {
+            self.change(image: nil, in: self.thingImage)
+        }        
     }
-    
-    func update(withLikeValue: Bool?) {
-        updateLikeImage(check: withLikeValue)
-    }
-    
 }
 
 // MARK: - Private Methods
@@ -48,7 +60,6 @@ final class ThingCell: UITableViewCell {
 private extension ThingCell {
     func setupUI() {
         contentView.backgroundColor = UIColor.clear
-        
         setupBackgroundView()
         setupThingImageView()
         setupNameLabel()
@@ -110,6 +121,10 @@ private extension ThingCell {
     }
     
     func change(image: UIImage?, in imageView: UIImageView, animated: Bool = true) {
+        guard let image = image else {
+            imageView.image = nil
+            return
+        }
         let transition = CATransition()
         transition.duration = 0.8
         transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
@@ -117,18 +132,5 @@ private extension ThingCell {
     
         imageView.image = image
         imageView.layer.add(transition, forKey: nil)
-    }
-    
-    func updateLikeImage(check: @autoclosure () -> Bool?) {
-        if check() == true {
-            setLikeImageWithAnimation(image: #imageLiteral(resourceName: "likeO96"))
-        }
-        else if check() == false {
-            setLikeImageWithAnimation(image: #imageLiteral(resourceName: "dontlikeO96"))
-        }
-    }
-    
-    func setLikeImageWithAnimation(image: UIImage) {
-        change(image: image, in: likeImage)
     }
 }

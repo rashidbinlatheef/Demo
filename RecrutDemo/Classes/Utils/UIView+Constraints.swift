@@ -10,7 +10,7 @@ import UIKit
 
 extension UIView {
     /// Creates a constraint that defines the relationship between the specified attributes of a view with another view
-    /// - Parameters: the created constraint in case you wish to hold onto it.
+    /// - Parameters:
     ///   - attr1: The attribute of the current view for the left side of the constraint.
     ///   - attr2: The attribute of the view for the right side of the constraint.
     ///   - view2: The view for the right side of the constraint.

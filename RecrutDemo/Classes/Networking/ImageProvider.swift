@@ -7,7 +7,7 @@ class ImageProvider {
     
     private let networkLayer: NetworkLayer
     private let queue = DispatchQueue(label: "imageDownloading")
-    private let cache = ImageCache()
+    static let cache = ImageCache()
     
     init() {
         self.networkLayer = NetworkLayer.sharedInstance
@@ -21,7 +21,7 @@ class ImageProvider {
             return
         }
         
-        var imageName = self.imageName(for: url)
+        let imageName = self.imageName(for: url)
         queue.async { [weak self] in
             
             self?.downloadImage(from: url, saveAs: imageName, completion: { (image, urlString) in
@@ -44,8 +44,8 @@ class ImageProvider {
                 return
             }
             
-            let name = self.cache.imageName(for: url)
-            let image = self.cache.storeImageInCache(from: location, imageName: name)
+            let name = Self.cache.imageName(for: url)
+            let image = Self.cache.storeImageInCache(from: location, imageName: name)
             completion?(image, urlString)
         })
     }

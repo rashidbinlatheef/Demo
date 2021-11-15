@@ -6,7 +6,6 @@ class ThingDetailsViewController: UIViewController {
     private let baseView = ThingDetailsView()
     var thingModel: ThingModel!
     var imageProvider: ImageProvider!
-    var delegate: ThingDetailsDelegate? = nil
     
     convenience init() {
         self.init(nibName: nil, bundle: nil)
@@ -30,15 +29,18 @@ class ThingDetailsViewController: UIViewController {
     }
     
     @objc func didTapLikeButton() {
-        delegate?.thingDetails(viewController: self, didLike: &thingModel!)
+        thingModel.like = true
+        NotificationCenter.default.post(name: ThingsModelUpdateNotification, object: thingModel)
+        navigationController?.popViewController(animated: true)
     }
     @objc
     func didTapDislikeButton() {
-        delegate?.thingDetails(viewController: self, didDislike: &thingModel!)
+        thingModel.like = false
+        NotificationCenter.default.post(name: ThingsModelUpdateNotification, object: thingModel)
+        navigationController?.popViewController(animated: true)
     }
     
     func displayImage() {
-        
         if let urlString = thingModel.image {
             imageProvider.imageAsync(from: urlString, completion: { (image, imageUrl) in
                 self.baseView.setThing(image: image)
