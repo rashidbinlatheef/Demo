@@ -2,49 +2,21 @@ import Foundation
 import UIKit
 var count: Int = 0
 
-class ThingCell: UITableViewCell {
-    
+final class ThingCell: UITableViewCell {
     private let thingImage = UIImageView()
     private let likeImage = UIImageView()
     private lazy var nameLabel: UILabel = {
-        
         let label = UILabel()
         label.textColor = UIColor.black
-        label.backgroundColor = UIColor.clear
         label.font = UIFont.systemFont(ofSize: 20.0)
         return label
     }()
     
-    let background = UIView(frame: .zero)
     var updateThingImage: ((UIImage?) -> (Void)) = { _ in }
-    var isLiked: Bool? = false {
-        
-        willSet {
-            self.updateLikeImage(check: newValue)
-        }
-    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        
-        background.backgroundColor = UIColor(white: 0.9, alpha: 0.1)
-        contentView.addSubview(background)
-        
-        thingImage.contentMode = .scaleAspectFit
-  
-        contentView.backgroundColor = UIColor.clear
-        backgroundColor = UIColor.clear
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(thingImage)
-        contentView.addSubview(likeImage)
-        addShadow()
-    }
-    
-    convenience init() {
-        self.init(style: .default, reuseIdentifier: "")
-
-        nameLabel.text = "Undefined thing name"
- 
+        setupUI()
         updateThingImage = { image in
             self.change(image: image, in: self.thingImage)
         }
@@ -54,28 +26,11 @@ class ThingCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-    
-        let origin = CGPoint(x: 80.0, y: 10.5)
-        let size = CGSize(width: bounds.width - origin.x, height: bounds.height)
-        nameLabel.frame = CGRect(origin: origin, size: size)
-        
-        let imageOrigin = CGPoint(x: 10.0, y: 5.5)
-        let imageSize = CGSize(width: 50.0, height: 50.0)
-        thingImage.frame = CGRect(origin: imageOrigin, size: imageSize)
-        
-        let likeOrigin = CGPoint(x: bounds.width - 50.5, y: 10.5)
-        let likeSize = CGSize(width: 40.0, height: 40.0)
-        likeImage.frame = CGRect(origin: likeOrigin, size: likeSize)
-        
-        background.frame = bounds
-    }
-    
-    func setupImageView() {
-        
-        thingImage.backgroundColor = UIColor.clear
-        thingImage.layer.masksToBounds = true
-        thingImage.layer.cornerRadius = 10.0
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        thingImage.image = nil
+        likeImage.image = nil
+        nameLabel.text = nil
     }
     
     func update(withText: String) {
@@ -83,34 +38,78 @@ class ThingCell: UITableViewCell {
     }
     
     func update(withLikeValue: Bool?) {
-        isLiked = withLikeValue
+        updateLikeImage(check: withLikeValue)
     }
     
-//    func animateAlphaLikeImage() {
-//        
-//        likeImage.alpha = 0.0
-//        UIView.animate(withDuration: 0.5) { 
-//            self.likeImage.alpha = 1.0
-//        }
-//    }
-    
-    func setLikeImageWithAnimation(image: UIImage) {
+}
 
-        change(image: image, in: likeImage)
+// MARK: - Private Methods
+
+private extension ThingCell {
+    func setupUI() {
+        contentView.backgroundColor = UIColor.clear
+        
+        setupBackgroundView()
+        setupThingImageView()
+        setupNameLabel()
+        setupLikeImage()
+        addShadow()
     }
     
-    private func updateLikeImage(check: @autoclosure () -> Bool?) {
+    func setupBackgroundView() {
+        let background = UIView()
+        contentView.addSubview(background)
         
-        if check() == true {
-            setLikeImageWithAnimation(image: #imageLiteral(resourceName: "likeO96"))
-        }
-        else if check() == false {
-            setLikeImageWithAnimation(image: #imageLiteral(resourceName: "dontlikeO96"))
-        }
+        background.pin(.leading, to: .leading, of: contentView)
+        background.pin(.trailing, to: .trailing, of: contentView)
+        background.pin(.top, to: .top, of: contentView)
+        background.pin(.bottom, to: .bottom, of: contentView)
+
+        background.backgroundColor = UIColor(white: 0.9, alpha: 0.1)
     }
     
-    private func change(image: UIImage?, in imageView: UIImageView, animated: Bool = true) {
+    func setupThingImageView() {
+        contentView.addSubview(thingImage)
         
+        thingImage.pin(.leading, to: .leading, of: contentView, constant: 10)
+        thingImage.pin(.top, to: .top, of: contentView, relatedBy:.greaterThanOrEqual, constant: 5)
+        thingImage.pin(.centerY, to: .centerY, of: contentView)
+        thingImage.pinSize(50)
+        
+        thingImage.backgroundColor = UIColor.clear
+        thingImage.layer.masksToBounds = true
+        thingImage.layer.cornerRadius = 10.0
+        thingImage.contentMode = .scaleAspectFill
+    }
+    
+    func setupNameLabel() {
+        contentView.addSubview(nameLabel)
+        nameLabel.pin(.leading, to: .trailing, of: thingImage, constant: 5)
+        nameLabel.pin(.centerY, to: .centerY, of: contentView)
+        nameLabel.pin(.top, to: .top, of: contentView, relatedBy:.greaterThanOrEqual, constant: 5)
+        nameLabel.numberOfLines = 0
+    }
+    
+    func setupLikeImage() {
+        contentView.addSubview(likeImage)
+        likeImage.pin(.leading, to: .trailing, of: nameLabel, constant: 5)
+        likeImage.pin(.centerY, to: .centerY, of: contentView)
+        likeImage.pin(.trailing, to: .trailing, of: contentView, constant: -10)
+        likeImage.pinSize(40)
+    }
+    
+    func addShadow() {
+        layer.shadowColor = UIColor.white.cgColor
+        layer.shadowOffset = CGSize(width: 0.5, height: 1.0)
+        layer.shadowOpacity = 0.5
+        layer.shadowRadius = 1.0
+
+        thingImage.layer.shadowOffset = CGSize(width: 0.5, height: 1.0)
+        thingImage.layer.shadowOpacity = 0.3
+        thingImage.layer.shadowRadius = 2.0
+    }
+    
+    func change(image: UIImage?, in imageView: UIImageView, animated: Bool = true) {
         let transition = CATransition()
         transition.duration = 0.8
         transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
@@ -120,30 +119,16 @@ class ThingCell: UITableViewCell {
         imageView.layer.add(transition, forKey: nil)
     }
     
-    private func addShadow() {
-        
-        layer.shadowColor = UIColor.white.cgColor
-        layer.shadowOffset = CGSize(width: 0.5, height: 1.0)
-        layer.shadowOpacity = 0.5
-        layer.shadowRadius = 1.0
-        
-        thingImage.layer.shadowOffset = CGSize(width: 0.5, height: 1.0)
-        thingImage.layer.shadowOpacity = 0.3
-        thingImage.layer.shadowRadius = 2.0
+    func updateLikeImage(check: @autoclosure () -> Bool?) {
+        if check() == true {
+            setLikeImageWithAnimation(image: #imageLiteral(resourceName: "likeO96"))
+        }
+        else if check() == false {
+            setLikeImageWithAnimation(image: #imageLiteral(resourceName: "dontlikeO96"))
+        }
+    }
+    
+    func setLikeImageWithAnimation(image: UIImage) {
+        change(image: image, in: likeImage)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

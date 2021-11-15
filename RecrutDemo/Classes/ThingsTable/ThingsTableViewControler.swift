@@ -1,12 +1,11 @@
 import Foundation
 import UIKit
 
-class ThingsTableViewControler: UITableViewController {
+final class ThingsTableViewControler: UITableViewController {
     
     struct TableViewConstants {
-        
+               
         static let cellIdentifier = "Cell"
-        static let rowHeight: CGFloat = 60
         static let estimatedRowHeight: CGFloat = 180
     }
     
@@ -22,9 +21,9 @@ class ThingsTableViewControler: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.register(ThingCell.self, forCellReuseIdentifier: TableViewConstants.cellIdentifier)
         tableView.estimatedRowHeight = TableViewConstants.estimatedRowHeight
-        tableView.rowHeight = TableViewConstants.rowHeight
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorColor = UIColor.black
         tableView.separatorStyle = .singleLine
         navigationController?.isNavigationBarHidden = true
@@ -40,25 +39,23 @@ class ThingsTableViewControler: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        var cell: ThingCell? = tableView.dequeueReusableCell(withIdentifier: TableViewConstants.cellIdentifier) as? ThingCell
-        
-        if cell == nil {
-            cell = ThingCell()
+        guard let cell: ThingCell = tableView.dequeueReusableCell(withIdentifier: TableViewConstants.cellIdentifier, for: indexPath) as? ThingCell else {
+            fatalError("Couldn't dequeue cell of type: \(ThingCell.self) with identifier \(TableViewConstants.cellIdentifier). You probably forgot to register the table view cell class.")
         }
-        viewModel.bindModelWithView(cell: cell!, at: indexPath)
+        
+        viewModel.bindModelWithView(cell: cell, at: indexPath)
         
         let thingModel = viewModel.thing(for: indexPath)
-        cell?.update(withText: thingModel.name)
-        cell?.update(withLikeValue: thingModel.like)
+        cell.update(withText: thingModel.name)
+        cell.update(withLikeValue: thingModel.like)
         
         if let urlString = thingModel.image {
-            viewModel.imageProvider.imageAsync(from: urlString, completion: { (image, imageUrl) in
+            viewModel.imageProvider.imageAsync(from: urlString, completion: { [weak cell] (image, imageUrl) in
                 cell?.updateThingImage(image)
             })
         }
         
-        return cell!
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
