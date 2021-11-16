@@ -17,7 +17,7 @@ final class ThingCell: UITableViewCell {
         return label
     }()
     
-    private var imageProvider: ImageProvider?
+    private var imageProvider: ImageProviderService?
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)

@@ -6,14 +6,14 @@ struct ThingDetailsViewModel {
 }
 
 final class ThingDetailsView: UIView {
-    private let imageProvider: ImageProvider
+    private let imageProvider: ImageProviderService
     private let imageView = UIImageView()
     
     var onLikeButtonAction: (() -> Void)?
     var onDisLikeButtonAction: (() -> Void)?
     
     init(
-        imageProvider: ImageProvider = ImageProvider()
+        imageProvider: ImageProviderService = ImageProvider()
     ) {
         self.imageProvider = imageProvider
         super.init(frame: CGRect.zero)
