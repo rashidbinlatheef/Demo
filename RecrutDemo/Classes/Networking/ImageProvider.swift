@@ -15,13 +15,15 @@ protocol ImageProviderService {
 
 final class ImageProvider {
     private let networkService: NetworkService
+    private let cache: ImageCacheService
     private let queue = DispatchQueue(label: "imageDownloading")
-    private static let cache = ImageCache()
     
     init(
-        networkService: NetworkService = NetworkLayer.sharedInstance
+        networkService: NetworkService = NetworkLayer.sharedInstance,
+        cache: ImageCacheService = ImageCache.sharedInstance
     ) {
         self.networkService = networkService
+        self.cache = cache
     }
 }
 
@@ -29,43 +31,30 @@ final class ImageProvider {
 
 extension ImageProvider: ImageProviderService {
     func imageAsync(from urlString: String, completion: DownloadCompletion) {
-        guard let url = URL(string: urlString) else {
-            completion?(nil, urlString)
-            return
-        }
-        let imageName = imageName(for: url)
-        queue.async { [weak self] in
-            self?.downloadImage(from: url, saveAs: imageName, completion: { image, urlString in
-                DispatchQueue.main.async {
-                    completion?(image, urlString)
-                }
-            })
-        }
-    }
-}
-
-// MARK: - Private
-
-private extension ImageProvider {
-    func downloadImage(from url: URL, saveAs imageName: String, completion: DownloadCompletion) {
-        networkService.downloadFile(from: url, completion: { locationURL, response, error in
-            let urlString = url.absoluteString
-            guard let location = locationURL else {
-                completion?(nil, urlString)
-                return
+        if let cachedImage = cache.image(forKey: urlString) {
+            DispatchQueue.main.async {
+                completion?(cachedImage, urlString)
             }
-            
-            let name = Self.cache.imageName(for: url)
-            let image = Self.cache.storeImageInCache(from: location, imageName: name)
-            completion?(image, urlString)
-        })
-    }
-    
-    func imageName(for url: URL) -> String {
-        var imageName = url.lastPathComponent
-        if let size = url.query {
-            imageName = imageName + size
+        } else {
+            queue.async { [weak self] in
+                self?.networkService.executeRequestWith(urlString: urlString, method: .GET) { [weak self] _, _, data, error
+                    in
+                    if error != nil {
+                        DispatchQueue.main.async {
+                            completion?(nil, urlString)
+                        }
+                    } else if let imageData = data, let downloadedImage = UIImage(data: imageData) {
+                        self?.cache.storeImage(downloadedImage, key: urlString)
+                        DispatchQueue.main.async {
+                            completion?(downloadedImage, urlString)
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            completion?(nil, urlString)
+                        }
+                    }
+                }
+            }
         }
-        return imageName
     }
 }

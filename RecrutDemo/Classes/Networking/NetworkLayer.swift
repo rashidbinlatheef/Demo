@@ -13,16 +13,6 @@ protocol NetworkService {
         method: RequestMethod,
         completion: @escaping NetworkTaskCompletion
     )
-    
-    /// Download file from  given url
-    ///
-    /// - Parameters:
-    ///   - url: The location of the file
-    ///   - completion: The Download file response
-    func downloadFile(
-        from url: URL,
-        completion: @escaping (_ locationURL: URL?, _ response:URLResponse?, _ error: Error?) -> Void
-    )
 }
 
 enum RequestMethod: String {
@@ -72,16 +62,5 @@ extension NetworkLayer: NetworkService {
         }
         request.httpMethod = method.rawValue
         resumeTask(with: request, completion: completion)
-    }
-    
-    func downloadFile(
-        from url: URL,
-        completion: @escaping (_ locationURL: URL?, _ response:URLResponse?, _ error: Error?) -> Void
-    ) {
-        let downloadTask = session.downloadTask(with: url) { locationURL, response, error -> Void in
-            completion(locationURL, response, error)
-            return
-        }
-        downloadTask.resume()
     }
 }
