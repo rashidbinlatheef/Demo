@@ -4,13 +4,14 @@ import UIKit
 typealias DownloadCompletion = ((_ image: UIImage?, _ urlString: String) -> ())?
 
 class ImageProvider {
-    
-    private let networkLayer: NetworkLayer
+    private let networkService: NetworkService
     private let queue = DispatchQueue(label: "imageDownloading")
     static let cache = ImageCache()
     
-    init() {
-        self.networkLayer = NetworkLayer.sharedInstance
+    init(
+        networkService: NetworkService = NetworkLayer.sharedInstance
+    ) {
+        self.networkService = networkService
     }
     
     func imageAsync(from urlString: String, completion: DownloadCompletion) {
@@ -34,8 +35,7 @@ class ImageProvider {
     }
 
     private func downloadImage(from url: URL, saveAs imageName: String, completion: DownloadCompletion) {
-        
-        networkLayer.downloadFile(from: url, completion: { (locationURL, response, error) in
+        networkService.downloadFile(from: url, completion: { (locationURL, response, error) in
             
             let urlString = url.absoluteString
             guard let location = locationURL else {
