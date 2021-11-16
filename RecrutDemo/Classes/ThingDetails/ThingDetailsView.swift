@@ -54,16 +54,6 @@ final class ThingDetailsView: UIView {
         )
     }
     
-    @objc
-    func didTapLikeButton() {
-        onLikeButtonAction?()
-    }
-    
-    @objc
-    func didTapDislikeButton() {
-        onDisLikeButtonAction?()
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -71,33 +61,6 @@ final class ThingDetailsView: UIView {
     override func updateConstraints() {
         setupConstraints()
         super.updateConstraints()
-    }
-    
-    private func setupConstraints() {
-        
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        likeButton.translatesAutoresizingMaskIntoConstraints = false
-        dislikeButton.translatesAutoresizingMaskIntoConstraints = false
-        buttons.translatesAutoresizingMaskIntoConstraints = false
-        
-        let padding: CGFloat = 20.0
-        let imageSize: CGFloat = 300.0
-        imageView.topAnchor.constraint(equalTo: topAnchor, constant: 70.0).isActive = true
-        imageView.leftAnchor.constraint(equalTo: leftAnchor, constant: padding).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: imageSize).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: imageSize).isActive = true
-        
-        let buttonSize: CGFloat = 50.0
-        buttons.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        likeButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        likeButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        
-        dislikeButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        dislikeButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        
-        buttons.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 30).isActive = true
-        buttons.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0.0).isActive = true
     }
     
     func render(viewModel: ThingDetailsViewModel) {
@@ -112,21 +75,42 @@ final class ThingDetailsView: UIView {
     }
 }
 
+// MARK: - Private
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+private extension ThingDetailsView {
+    @objc
+    func didTapLikeButton() {
+        onLikeButtonAction?()
+    }
+    
+    @objc
+    func didTapDislikeButton() {
+        onDisLikeButtonAction?()
+    }
+    
+    func setupConstraints() {
+       imageView.translatesAutoresizingMaskIntoConstraints = false
+       likeButton.translatesAutoresizingMaskIntoConstraints = false
+       dislikeButton.translatesAutoresizingMaskIntoConstraints = false
+       buttons.translatesAutoresizingMaskIntoConstraints = false
+       
+       let padding: CGFloat = 20.0
+       let imageSize: CGFloat = 300.0
+       imageView.topAnchor.constraint(equalTo: topAnchor, constant: 70.0).isActive = true
+       imageView.leftAnchor.constraint(equalTo: leftAnchor, constant: padding).isActive = true
+       imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding).isActive = true
+       imageView.heightAnchor.constraint(equalToConstant: imageSize).isActive = true
+       imageView.widthAnchor.constraint(equalToConstant: imageSize).isActive = true
+       
+       let buttonSize: CGFloat = 50.0
+       buttons.widthAnchor.constraint(equalToConstant: 120).isActive = true
+       likeButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+       likeButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+       
+       dislikeButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+       dislikeButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+       
+       buttons.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 30).isActive = true
+       buttons.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0.0).isActive = true
+   }
+}
