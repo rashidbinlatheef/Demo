@@ -1,19 +1,26 @@
 import Foundation
 import UIKit
 
-class ThingModel {
+final class ThingModel: Codable {
     let name: String
-    var like: Bool?
     var image: String?
     var type: String?
-    var uuid: String?
-    var index: NSNumber?
+    let uuid: String
+    var like: Bool?
+
+    enum CodingKeys: String, CodingKey {
+        case name, like, image, type, uuid
+    }
     
-    init(name: String) {
-        self.name = name
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        name = try values.decode(String.self, forKey: .name)
+        type = try? values.decode(String.self, forKey: .type)
+        uuid = try values.decode(String.self, forKey: .uuid)
+        let imageUrlString = try? values.decode([String].self, forKey: .image)
+        image = imageUrlString?.first
     }
 }
-
 
 
 
