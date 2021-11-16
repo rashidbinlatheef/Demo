@@ -2,6 +2,20 @@ import Foundation
 import UIKit
 
 final class ThingModel: Codable {
+    init(
+        name: String,
+        image: String? = nil,
+        type: String? = nil,
+        uuid: String,
+        like: Bool? = nil
+    ) {
+        self.name = name
+        self.image = image
+        self.type = type
+        self.uuid = uuid
+        self.like = like
+    }
+    
     let name: String
     var image: String?
     var type: String?
@@ -21,27 +35,3 @@ final class ThingModel: Codable {
         image = imageUrlString?.first
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

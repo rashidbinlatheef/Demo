@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-struct ThingCellViewModel {
+struct ThingCellViewModel: Equatable {
     let name: String
     let imageUrlString: String?
     let likeImage: UIImage?
@@ -50,7 +50,7 @@ final class ThingCell: UITableViewCell {
                 self.change(image: image, in: self.thingImage)
             }
         } else {
-            self.change(image: nil, in: self.thingImage)
+            change(image: nil, in: thingImage)
         }        
     }
 }

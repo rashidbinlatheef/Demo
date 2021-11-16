@@ -1,7 +1,14 @@
 import Foundation
 
 struct ThingsTableViewModel {
-    private var things: [ThingModel] = mockData()
+    private let things: [ThingModel]
+    
+    init(
+        things: [ThingModel] = mockData()
+    ) {
+        self.things = things
+    }
+    
     var datasourceCount: Int {
         return things.count
     }

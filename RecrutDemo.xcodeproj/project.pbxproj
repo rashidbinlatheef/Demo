@@ -24,12 +24,20 @@
 		63BF73ED1D6446BC00114782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BF73EC1D6446BC00114782 /* AppDelegate.swift */; };
 		63BF73F71D6446BC00114782 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63BF73F61D6446BC00114782 /* Assets.xcassets */; };
 		63BF73FA1D6446BC00114782 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63BF73F81D6446BC00114782 /* LaunchScreen.storyboard */; };
-		63BF74051D6446BC00114782 /* RecrutDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BF74041D6446BC00114782 /* RecrutDemoTests.swift */; };
 		63BF74101D6446BC00114782 /* RecrutDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BF740F1D6446BC00114782 /* RecrutDemoUITests.swift */; };
 		C7A449C027425FF600C43AA1 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449BF27425FF600C43AA1 /* UIView+Constraints.swift */; };
-		C7A449C227428EFD00C43AA1 /* UImage+ RecruitDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449C127428EFC00C43AA1 /* UImage+ RecruitDemo.swift */; };
+		C7A449C227428EFD00C43AA1 /* UImage+RecruitDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449C127428EFC00C43AA1 /* UImage+RecruitDemo.swift */; };
 		C7A449C42742933F00C43AA1 /* ThingViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449C32742933F00C43AA1 /* ThingViewModelBuilder.swift */; };
 		C7A449C6274296B400C43AA1 /* Notification+RecruitDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449C5274296B400C43AA1 /* Notification+RecruitDemo.swift */; };
+		C7A449C82743DE4C00C43AA1 /* NetworkServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449C72743DE4C00C43AA1 /* NetworkServiceMock.swift */; };
+		C7A449CA2743DFB000C43AA1 /* ImageCacheServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449C92743DFB000C43AA1 /* ImageCacheServiceMock.swift */; };
+		C7A449CC2743DFC300C43AA1 /* ImageProviderServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449CB2743DFC300C43AA1 /* ImageProviderServiceMock.swift */; };
+		C7A449CE2743E60C00C43AA1 /* ThingViewModelBuildingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449CD2743E60C00C43AA1 /* ThingViewModelBuildingMock.swift */; };
+		C7A449D12743E6F100C43AA1 /* ImageProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449D02743E6F100C43AA1 /* ImageProviderTests.swift */; };
+		C7A449D32743F49D00C43AA1 /* ThingViewModelBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449D22743F49D00C43AA1 /* ThingViewModelBuilderTests.swift */; };
+		C7A449D52743F50600C43AA1 /* ThingModel+Generate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449D42743F50600C43AA1 /* ThingModel+Generate.swift */; };
+		C7A449D92743FA0200C43AA1 /* UImage+RecruitDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449D82743FA0200C43AA1 /* UImage+RecruitDemoTests.swift */; };
+		C7A449DB274400AC00C43AA1 /* ThingsTableViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A449DA274400AC00C43AA1 /* ThingsTableViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,15 +78,23 @@
 		63BF73F91D6446BC00114782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63BF73FB1D6446BC00114782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63BF74001D6446BC00114782 /* RecrutDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecrutDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		63BF74041D6446BC00114782 /* RecrutDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecrutDemoTests.swift; sourceTree = "<group>"; };
 		63BF74061D6446BC00114782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63BF740B1D6446BC00114782 /* RecrutDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecrutDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63BF740F1D6446BC00114782 /* RecrutDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecrutDemoUITests.swift; sourceTree = "<group>"; };
 		63BF74111D6446BC00114782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7A449BF27425FF600C43AA1 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
-		C7A449C127428EFC00C43AA1 /* UImage+ RecruitDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UImage+ RecruitDemo.swift"; sourceTree = "<group>"; };
+		C7A449C127428EFC00C43AA1 /* UImage+RecruitDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UImage+RecruitDemo.swift"; sourceTree = "<group>"; };
 		C7A449C32742933F00C43AA1 /* ThingViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThingViewModelBuilder.swift; sourceTree = "<group>"; };
 		C7A449C5274296B400C43AA1 /* Notification+RecruitDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+RecruitDemo.swift"; sourceTree = "<group>"; };
+		C7A449C72743DE4C00C43AA1 /* NetworkServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceMock.swift; sourceTree = "<group>"; };
+		C7A449C92743DFB000C43AA1 /* ImageCacheServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheServiceMock.swift; sourceTree = "<group>"; };
+		C7A449CB2743DFC300C43AA1 /* ImageProviderServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProviderServiceMock.swift; sourceTree = "<group>"; };
+		C7A449CD2743E60C00C43AA1 /* ThingViewModelBuildingMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThingViewModelBuildingMock.swift; sourceTree = "<group>"; };
+		C7A449D02743E6F100C43AA1 /* ImageProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProviderTests.swift; sourceTree = "<group>"; };
+		C7A449D22743F49D00C43AA1 /* ThingViewModelBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThingViewModelBuilderTests.swift; sourceTree = "<group>"; };
+		C7A449D42743F50600C43AA1 /* ThingModel+Generate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThingModel+Generate.swift"; sourceTree = "<group>"; };
+		C7A449D82743FA0200C43AA1 /* UImage+RecruitDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UImage+RecruitDemoTests.swift"; sourceTree = "<group>"; };
+		C7A449DA274400AC00C43AA1 /* ThingsTableViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThingsTableViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,7 +187,7 @@
 			children = (
 				C7A449C5274296B400C43AA1 /* Notification+RecruitDemo.swift */,
 				C7A449BF27425FF600C43AA1 /* UIView+Constraints.swift */,
-				C7A449C127428EFC00C43AA1 /* UImage+ RecruitDemo.swift */,
+				C7A449C127428EFC00C43AA1 /* UImage+RecruitDemo.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -222,7 +238,9 @@
 		63BF74031D6446BC00114782 /* RecrutDemoTests */ = {
 			isa = PBXGroup;
 			children = (
-				63BF74041D6446BC00114782 /* RecrutDemoTests.swift */,
+				C7A449D72743F90C00C43AA1 /* Tests */,
+				C7A449D62743F8E800C43AA1 /* Helpers */,
+				C7A449CF2743E63D00C43AA1 /* ProtocolMocks */,
 				63BF74061D6446BC00114782 /* Info.plist */,
 			);
 			path = RecrutDemoTests;
@@ -235,6 +253,36 @@
 				63BF74111D6446BC00114782 /* Info.plist */,
 			);
 			path = RecrutDemoUITests;
+			sourceTree = "<group>";
+		};
+		C7A449CF2743E63D00C43AA1 /* ProtocolMocks */ = {
+			isa = PBXGroup;
+			children = (
+				C7A449C72743DE4C00C43AA1 /* NetworkServiceMock.swift */,
+				C7A449C92743DFB000C43AA1 /* ImageCacheServiceMock.swift */,
+				C7A449CB2743DFC300C43AA1 /* ImageProviderServiceMock.swift */,
+				C7A449CD2743E60C00C43AA1 /* ThingViewModelBuildingMock.swift */,
+			);
+			path = ProtocolMocks;
+			sourceTree = "<group>";
+		};
+		C7A449D62743F8E800C43AA1 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C7A449D42743F50600C43AA1 /* ThingModel+Generate.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C7A449D72743F90C00C43AA1 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C7A449D02743E6F100C43AA1 /* ImageProviderTests.swift */,
+				C7A449DA274400AC00C43AA1 /* ThingsTableViewModelTests.swift */,
+				C7A449D82743FA0200C43AA1 /* UImage+RecruitDemoTests.swift */,
+				C7A449D22743F49D00C43AA1 /* ThingViewModelBuilderTests.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -384,7 +432,7 @@
 				6351D4381E6840F30006327A /* ThingCell.swift in Sources */,
 				6351D4431E6853650006327A /* ItemsDatasource.swift in Sources */,
 				6351D43C1E6845BA0006327A /* ThingModel.swift in Sources */,
-				C7A449C227428EFD00C43AA1 /* UImage+ RecruitDemo.swift in Sources */,
+				C7A449C227428EFD00C43AA1 /* UImage+RecruitDemo.swift in Sources */,
 				6351D4461E6856FD0006327A /* ImageProvider.swift in Sources */,
 				6351D4491E68627F0006327A /* ImageCache.swift in Sources */,
 				63BF73ED1D6446BC00114782 /* AppDelegate.swift in Sources */,
@@ -397,7 +445,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63BF74051D6446BC00114782 /* RecrutDemoTests.swift in Sources */,
+				C7A449CA2743DFB000C43AA1 /* ImageCacheServiceMock.swift in Sources */,
+				C7A449D32743F49D00C43AA1 /* ThingViewModelBuilderTests.swift in Sources */,
+				C7A449D92743FA0200C43AA1 /* UImage+RecruitDemoTests.swift in Sources */,
+				C7A449C82743DE4C00C43AA1 /* NetworkServiceMock.swift in Sources */,
+				C7A449DB274400AC00C43AA1 /* ThingsTableViewModelTests.swift in Sources */,
+				C7A449D12743E6F100C43AA1 /* ImageProviderTests.swift in Sources */,
+				C7A449CC2743DFC300C43AA1 /* ImageProviderServiceMock.swift in Sources */,
+				C7A449D52743F50600C43AA1 /* ThingModel+Generate.swift in Sources */,
+				C7A449CE2743E60C00C43AA1 /* ThingViewModelBuildingMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,7 +665,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yougov.RecrutDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RecrutDemo.app/RecrutDemo";
 			};
 			name = Debug;
@@ -622,7 +678,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yougov.RecrutDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RecrutDemo.app/RecrutDemo";
 			};
 			name = Release;
@@ -634,7 +690,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yougov.RecrutDemoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = RecrutDemo;
 			};
 			name = Debug;
@@ -646,7 +702,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yougov.RecrutDemoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = RecrutDemo;
 			};
 			name = Release;

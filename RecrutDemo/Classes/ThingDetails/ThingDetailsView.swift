@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-struct ThingDetailsViewModel {
+struct ThingDetailsViewModel: Equatable {
     let imageUrlString: String?
 }
 

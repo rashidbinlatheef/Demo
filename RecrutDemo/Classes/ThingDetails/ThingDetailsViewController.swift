@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-struct ThingDetailsVCViewModel {
+struct ThingDetailsVCViewModel: Equatable {
     let title: String
 }
 
